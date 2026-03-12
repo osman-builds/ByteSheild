@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ByteSheild.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ByteSheild"
+    Title="ByteSheild">
+
+    <ShellContent
+        Title="Splash"
+        ContentTemplate="{DataTemplate local:SplashPage}"
+        Route="SplashPage" />
+
+    <ShellContent
+        Title="Biometric Scanner"
+        ContentTemplate="{DataTemplate local:BiometricPage}"
+        Route="BiometricPage" />
+
+    <TabBar Route="MainTabs">
+        <Tab Title="Dashboard" Icon="dashboard_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate local:MainDashboardPage}" Route="MainDashboardPage" />
+        </Tab>
+        <Tab Title="Vault" Icon="vault_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate local:OfflineVaultPage}" Route="OfflineVaultPage" />
+        </Tab>
+        <Tab Title="Security" Icon="security_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate local:BreachCheckerPage}" Route="BreachCheckerPage" />
+        </Tab>
+        <Tab Title="Settings" Icon="settings_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" Route="AboutPage" />
+        </Tab>
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ByteSheild.AddVaultItemPage"
+             BackgroundColor="#0B1426"
+             Title="Add Account">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <Label Text="Add New Account" FontSize="24" FontAttributes="Bold" TextColor="White" />
+
+            <Label Text="Title" TextColor="#A0AAB8" FontSize="14" Margin="0,10,0,0"/>
+            <Border BackgroundColor="#162236" StrokeThickness="1" Stroke="#2A384D" Padding="15,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                <Entry x:Name="TitleEntry" Placeholder="e.g. Gmail" TextColor="White" BackgroundColor="Transparent" />
+            </Border>
+
+            <Label Text="Email / Username" TextColor="#A0AAB8" FontSize="14" />
+            <Border BackgroundColor="#162236" StrokeThickness="1" Stroke="#2A384D" Padding="15,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                <Entry x:Name="EmailEntry" Placeholder="user@example.com" TextColor="White" BackgroundColor="Transparent" />
+            </Border>
+
+            <Label Text="Password" TextColor="#A0AAB8" FontSize="14" />
+            <Border BackgroundColor="#162236" StrokeThickness="1" Stroke="#2A384D" Padding="15,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Secret password" TextColor="White" BackgroundColor="Transparent" />
+            </Border>
+
+            <Label Text="Icon (Emoji)" TextColor="#A0AAB8" FontSize="14" />
+            <Border BackgroundColor="#162236" StrokeThickness="1" Stroke="#2A384D" Padding="15,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                <Entry x:Name="IconEntry" Placeholder="✉️" TextColor="White" BackgroundColor="Transparent" />
+            </Border>
+
+            <Button Text="Save Securely" BackgroundColor="#00D4AA" TextColor="#0B1426" FontAttributes="Bold" CornerRadius="8" Margin="0,20,0,0" HeightRequest="50" Clicked="OnSaveClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
