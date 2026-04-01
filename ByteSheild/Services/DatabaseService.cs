@@ -1,23 +1,37 @@
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using ByteSheild.Models;
+using SQLite;
 
 namespace ByteSheild.Services
 {
     public class DatabaseService
     {
         private SQLiteAsyncConnection? _db;
+        private readonly string _databasePath;
+
+        public DatabaseService(string? customPath = null)
+        {
+            try
+            {
+                _databasePath = customPath ?? Path.Combine(FileSystem.AppDataDirectory, "ByteSheildVault.db3");
+            }
+            catch
+            {
+                // Fallback for tests if FileSystem is unavailable
+                _databasePath = customPath ?? Path.Combine(Path.GetTempPath(), "ByteSheildVault.db3");
+            }
+        }
+
+        private const SQLiteOpenFlags Flags =
+            SQLiteOpenFlags.ReadWrite |
+            SQLiteOpenFlags.Create |
+            SQLiteOpenFlags.SharedCache;
 
         async Task Init()
         {
             if (_db != null)
                 return;
 
-            var databasePath = Path.Combine(FileSystem.AppDataDirectory, "ByteSheildVault.db3");
-            _db = new SQLiteAsyncConnection(databasePath);
+            _db = new SQLiteAsyncConnection(_databasePath, Flags);
             await _db.CreateTableAsync<VaultItemModel>();
         }
 

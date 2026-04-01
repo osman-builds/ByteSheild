@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
 using ByteSheild.Models;
-using Microsoft.Maui.Controls;
 
 namespace ByteSheild
 {
@@ -9,26 +6,28 @@ namespace ByteSheild
     public partial class AddVaultItemPage : ContentPage
     {
         private VaultItemModel? _editItem;
+        private readonly Services.DatabaseService _database;
 
-        public string ItemId 
-        { 
-            set 
+        public string ItemId
+        {
+            set
             {
                 if (int.TryParse(Uri.UnescapeDataString(value), out int id))
                 {
                     LoadItem(id);
                 }
-            } 
+            }
         }
 
-        public AddVaultItemPage()
+        public AddVaultItemPage(Services.DatabaseService database)
         {
             InitializeComponent();
+            _database = database;
         }
 
         private async void LoadItem(int id)
         {
-            var items = await App.Database.GetVaultItemsAsync();
+            var items = await _database.GetVaultItemsAsync();
             _editItem = items.FirstOrDefault(i => i.Id == id);
 
             if (_editItem != null)
@@ -43,8 +42,8 @@ namespace ByteSheild
 
         private async void OnSaveClicked(object? sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TitleEntry.Text) || 
-                string.IsNullOrWhiteSpace(EmailEntry.Text) || 
+            if (string.IsNullOrWhiteSpace(TitleEntry.Text) ||
+                string.IsNullOrWhiteSpace(EmailEntry.Text) ||
                 string.IsNullOrWhiteSpace(PasswordEntry.Text))
             {
                 await DisplayAlertAsync("Error", "Please fill in all required fields.", "OK");
@@ -62,7 +61,7 @@ namespace ByteSheild
             _editItem.Icon = string.IsNullOrWhiteSpace(IconEntry.Text) ? "🔑" : IconEntry.Text;
             _editItem.LastUpdated = DateTime.Now;
 
-            await App.Database.SaveVaultItemAsync(_editItem);
+            await _database.SaveVaultItemAsync(_editItem);
             await DisplayAlertAsync("Success", "Account saved securely.", "OK");
 
             await Shell.Current.GoToAsync("..");

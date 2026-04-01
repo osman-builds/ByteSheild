@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="ByteSheild.SplashPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -81,7 +81,7 @@
                    Text="ByteShield"
                    FontSize="36"
                    FontAttributes="Bold"
-                   TextColor="White"
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}"
                    HorizontalOptions="Center"
                    Opacity="0">
                 <Label.Shadow>
@@ -129,7 +129,7 @@
             <Label x:Name="LoadingText"
                    Text="Initializing Security Protocols..."
                    FontSize="14"
-                   TextColor="#B0BEC5"
+                   TextColor="{AppThemeBinding Light=#404040, Dark=#B0BEC5}"
                    HorizontalOptions="Center" />
 
             <!-- Custom loading animation -->
@@ -162,7 +162,9 @@
                          Progress="0"
                          ProgressColor="#00D4AA"
                          HeightRequest="4"
-                         BackgroundColor="#1A2332" />
+                         BackgroundColor="{AppThemeBinding Light=#E8EAED, Dark=#1A2332}" />
         </StackLayout>
     </Grid>
 </ContentPage>
+
+

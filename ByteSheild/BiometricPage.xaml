@@ -2,16 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ByteSheild.BiometricPage"
-             BackgroundColor="#0B1426">
-    <Grid>
+             BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
+    <Grid BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
             <Image Source="shield_icon.svg" WidthRequest="100" HeightRequest="100">
                 <Image.Shadow>
                     <Shadow Brush="#00D4AA" Offset="0,0" Radius="15" Opacity="0.8"/>
                 </Image.Shadow>
             </Image>
-            <Label Text="Scanning for Authenticated User..." TextColor="White" FontSize="18" HorizontalOptions="Center" />
-            <Button x:Name="RetryButton" Text="Retry Authentication" BackgroundColor="#00D4AA" TextColor="#0B1426" FontAttributes="Bold" CornerRadius="8" Clicked="OnRetryClicked" />
+            <Label Text="Scanning for Authenticated User..." TextColor="{AppThemeBinding Light=Black, Dark=White}" FontSize="18" HorizontalOptions="Center" />
+            <Button x:Name="RetryButton" Text="Retry Authentication" BackgroundColor="#00D4AA" TextColor="#0B1426" FontAttributes="Bold" CornerRadius="8" Clicked="OnRetryClicked" IsVisible="False" />
         </StackLayout>
     </Grid>
 </ContentPage>
+
+

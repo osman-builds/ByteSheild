@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="ByteSheild/ByteSheild.csproj" />
+  <Project Path="ByteSheild/ByteSheild.csproj">
+    <Deploy />
+  </Project>
 </Solution>

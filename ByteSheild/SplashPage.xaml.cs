@@ -1,11 +1,8 @@
-using System;
-using Microsoft.Maui.Controls.Shapes;
-
 namespace ByteSheild
 {
     public partial class SplashPage : ContentPage
     {
-        private readonly string[] _loadingMessages = 
+        private readonly string[] _loadingMessages =
         {
             "Initializing Security Protocols...",
             "Encrypting Local Database...",
@@ -14,158 +11,161 @@ namespace ByteSheild
             "Activating ByteShield Protection..."
         };
 
+        private CancellationTokenSource? _animationCts;
+
         public SplashPage()
         {
             InitializeComponent();
-            _ = StartSplashSequence();
         }
 
-        private async Task StartSplashSequence()
+        protected override async void OnAppearing()
         {
-            // Set initial states
-            if (FindByName("AppTitle") is Label appTitle)
-                appTitle.Opacity = 0;
-
-            if (FindByName("Subtitle") is Label subtitle)
-                subtitle.Opacity = 0;
-
-            if (FindByName("SecurityIndicator") is StackLayout securityIndicator)
-                securityIndicator.Opacity = 0;
-
-            if (FindByName("LoadingSection") is StackLayout loadingSection)
-                loadingSection.Opacity = 0;
-
-            if (FindByName("ShieldFrame") is Border shieldFrame)
+            base.OnAppearing();
+            _animationCts = new CancellationTokenSource();
+            try
             {
-                shieldFrame.Scale = 0.8;
-                shieldFrame.Opacity = 1; // Keep visible to smoothly transition from native splash screen
+                await StartSplashSequence(_animationCts.Token);
             }
-
-            await Task.Delay(200);
-
-            if (FindByName("ShieldFrame") is Border shieldFrameAnim)
+            catch (OperationCanceledException)
             {
-                await Task.WhenAll(
-                    shieldFrameAnim.ScaleToAsync(1, 800, Easing.BounceOut)
-                );
+                // Expected when page is disappearing and animations are cancelled
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Splash screen error: {ex}");
+            }
+        }
 
-            await Task.Delay(200);
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            // Cancel animations to prevent memory leaks if user navigates away
+            _animationCts?.Cancel();
+        }
 
-            if (FindByName("AppTitle") is Label titleAnim)
-                await titleAnim.FadeToAsync(1, 600, Easing.CubicOut);
+        private async Task StartSplashSequence(CancellationToken token)
+        {
+            // Set initial states using direct field references instead of FindByName runtime lookup
+            AppTitle.Opacity = 0;
+            Subtitle.Opacity = 0;
+            SecurityIndicator.Opacity = 0;
+            LoadingSection.Opacity = 0;
 
-            await Task.Delay(300);
+            ShieldFrame.Scale = 0.8;
+            ShieldFrame.Opacity = 1; // Keep visible to smoothly transition from native splash screen
 
-            var animations = new List<Task>();
-            if (FindByName("Subtitle") is Label subtitleAnim)
-                animations.Add(subtitleAnim.FadeToAsync(1, 500, Easing.CubicOut));
-            if (FindByName("SecurityIndicator") is StackLayout securityAnim)
-                animations.Add(securityAnim.FadeToAsync(1, 500, Easing.CubicOut));
+            await Task.Delay(200, token);
+            if (token.IsCancellationRequested) return;
 
-            if (animations.Any())
-                await Task.WhenAll(animations);
+            await ShieldFrame.ScaleToAsync(1, 800, Easing.BounceOut);
 
-            await Task.Delay(500);
+            await Task.Delay(200, token);
+            if (token.IsCancellationRequested) return;
 
-            if (FindByName("LoadingSection") is StackLayout loadingSectionAnim)
-                await loadingSectionAnim.FadeToAsync(1, 400);
+            await AppTitle.FadeToAsync(1, 600, Easing.CubicOut);
+
+            await Task.Delay(300, token);
+            if (token.IsCancellationRequested) return;
 
             await Task.WhenAll(
-                StartLoadingDotsAnimation(),
-                StartProgressBarAnimation(),
-                CycleLoadingMessages()
+                Subtitle.FadeToAsync(1, 500, Easing.CubicOut),
+                SecurityIndicator.FadeToAsync(1, 500, Easing.CubicOut)
+            );
+
+            await Task.Delay(500, token);
+            if (token.IsCancellationRequested) return;
+
+            await LoadingSection.FadeToAsync(1, 400);
+
+            // Execute parallel UI tasks
+            await Task.WhenAll(
+                StartLoadingDotsAnimation(token),
+                StartProgressBarAnimation(token),
+                CycleLoadingMessages(token)
             );
         }
 
-        private async Task StartLoadingDotsAnimation()
+        private async Task StartLoadingDotsAnimation(CancellationToken token)
         {
-            var dot1 = FindByName("Dot1") as Ellipse;
-            var dot2 = FindByName("Dot2") as Ellipse;
-            var dot3 = FindByName("Dot3") as Ellipse;
-            var dots = new[] { dot1, dot2, dot3 }.OfType<Ellipse>().ToArray();
+            var dots = new[] { Dot1, Dot2, Dot3 };
 
-            var loadingProgressBar = FindByName("LoadingProgressBar") as ProgressBar;
-            if (loadingProgressBar == null) return;
-
-            while (loadingProgressBar.Progress < 1.0)
+            while (LoadingProgressBar.Progress < 1.0 && !token.IsCancellationRequested)
             {
                 foreach (var dot in dots)
                 {
-                    _ = Task.Run(async () =>
+                    if (token.IsCancellationRequested) break;
+
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
-                        await MainThread.InvokeOnMainThreadAsync(async () =>
-                        {
-                            await dot.FadeToAsync(1, 300);
-                            await dot.FadeToAsync(0.3, 300);
-                        });
+                        await dot.FadeToAsync(1, 300);
+                        await dot.FadeToAsync(0.3, 300);
                     });
-                    await Task.Delay(200);
+
+                    await Task.Delay(100, token);
                 }
             }
         }
 
-        private async Task StartProgressBarAnimation()
+        private async Task StartProgressBarAnimation(CancellationToken token)
         {
-            var loadingProgressBar = FindByName("LoadingProgressBar") as ProgressBar;
-            if (loadingProgressBar == null) return;
-
             const int totalSteps = 100;
             const int stepDelay = 35;
 
             for (int i = 0; i <= totalSteps; i++)
             {
+                if (token.IsCancellationRequested) return;
+
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    loadingProgressBar.Progress = (double)i / totalSteps;
+                    LoadingProgressBar.Progress = (double)i / totalSteps;
                 });
 
-                await Task.Delay(stepDelay);
+                await Task.Delay(stepDelay, token);
             }
 
-            await Task.Delay(800);
-            await NavigateToMainPage();
+            await Task.Delay(800, token);
+            if (!token.IsCancellationRequested)
+            {
+                await MainThread.InvokeOnMainThreadAsync(NavigateToMainPage);
+            }
         }
 
-        private async Task CycleLoadingMessages()
+        private async Task CycleLoadingMessages(CancellationToken token)
         {
-            var loadingText = FindByName("LoadingText") as Label;
-            var loadingProgressBar = FindByName("LoadingProgressBar") as ProgressBar;
-            if (loadingText == null || loadingProgressBar == null) return;
-
             int messageIndex = 0;
 
-            while (loadingProgressBar.Progress < 0.9)
+            while (LoadingProgressBar.Progress < 0.9 && !token.IsCancellationRequested)
             {
                 if (messageIndex < _loadingMessages.Length)
                 {
                     await MainThread.InvokeOnMainThreadAsync(() =>
                     {
-                        loadingText.Text = _loadingMessages[messageIndex];
+                        LoadingText.Text = _loadingMessages[messageIndex];
                     });
                     messageIndex++;
                 }
 
-                await Task.Delay(1200);
+                await Task.Delay(1200, token);
             }
 
-            await MainThread.InvokeOnMainThreadAsync(() =>
+            if (!token.IsCancellationRequested)
             {
-                loadingText.Text = "ByteShield Ready!";
-            });
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    LoadingText.Text = "ByteShield Ready!";
+                });
+            }
         }
 
         private async Task NavigateToMainPage()
         {
             try
             {
-                var shieldFrame = FindByName("ShieldFrame") as Border;
+                await Task.WhenAll(
+                    this.FadeToAsync(0, 500),
+                    ShieldFrame.ScaleToAsync(1.2, 500, Easing.CubicIn)
+                );
 
-                var animations = new List<Task> { this.FadeToAsync(0, 500) };
-                if (shieldFrame != null)
-                    animations.Add(shieldFrame.ScaleToAsync(1.2, 500, Easing.CubicIn));
-
-                await Task.WhenAll(animations);
                 await Shell.Current.GoToAsync("//BiometricPage");
             }
             catch (Exception ex)
@@ -175,9 +175,6 @@ namespace ByteSheild
             }
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
-        }
+        protected override bool OnBackButtonPressed() => true;
     }
 }

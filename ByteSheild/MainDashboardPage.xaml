@@ -2,80 +2,93 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ByteSheild.MainDashboardPage"
-             BackgroundColor="#0A1128">
+             BackgroundColor="{AppThemeBinding Light=White, Dark=#0A1128}">
 
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, *, Auto" BackgroundColor="{AppThemeBinding Light=White, Dark=#0A1128}">
         <!-- Main Content -->
         <ScrollView Grid.Row="1">
             <StackLayout Padding="20" Spacing="20">
                 <!-- Header -->
                 <Grid ColumnDefinitions="Auto, *, Auto">
                     <Image Grid.Column="0" Source="shield_icon.svg" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Text="Security Dashboard" FontSize="20" TextColor="White" VerticalOptions="Center" Margin="10,0,0,0"/>
-                    <Border Grid.Column="2" StrokeThickness="1" Stroke="#2A384D" BackgroundColor="Transparent" Padding="5" VerticalOptions="Center">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
-                        <Image Source="shield_icon.svg" WidthRequest="20" HeightRequest="20" Opacity="0.8"/>
-                    </Border>
+                    <Label Grid.Column="1" Text="Security Dashboard" FontSize="20" TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalOptions="Center" Margin="10,0,0,0"/>
                 </Grid>
 
                 <!-- Circular Progress -->
                 <StackLayout HorizontalOptions="Center" Spacing="0" Margin="0,15,0,15">
                     <Grid WidthRequest="220" HeightRequest="220">
                         <!-- Base ring -->
-                        <Ellipse Stroke="#1E2A3C" StrokeThickness="12" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Ellipse Stroke="{AppThemeBinding Light=#D0D5DD, Dark=#1E2A3C}" StrokeThickness="12" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" VerticalOptions="Center" />
                         <!-- Dynamic progress ring -->
                         <Ellipse x:Name="ScoreRing" Stroke="#00D4AA" StrokeThickness="12" StrokeLineCap="Round" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" VerticalOptions="Center" Rotation="-90" StrokeDashArray="0, 100" />
 
                         <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="0">
                             <Image Source="shield_icon.svg" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" Margin="0,0,0,5"/>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="2">
-                                <Label x:Name="MainScoreLabel" Text="0" FontSize="48" FontAttributes="Bold" TextColor="White" />
-                                <Label Text="%" FontSize="20" FontAttributes="Bold" TextColor="White" VerticalOptions="End" Margin="0,0,0,10"/>
+                                <Label x:Name="MainScoreLabel" Text="0" FontSize="48" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Text="%" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalOptions="End" Margin="0,0,0,10"/>
                             </StackLayout>
                             <Label Text="PROTECTED" FontSize="11" FontAttributes="Bold" TextColor="#00D4AA" HorizontalOptions="Center" CharacterSpacing="2" />
                         </StackLayout>
                     </Grid>
                 </StackLayout>
 
+                <!-- Realtime Stats Display Card -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,0,0,15">
+                    <Border Grid.Column="0" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <StackLayout Spacing="5">
+                            <Label Text="Vault Items" FontSize="14" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontAttributes="Bold" HorizontalOptions="Center" />
+                            <Label x:Name="VaultCountLabel" Text="0" FontSize="24" TextColor="{AppThemeBinding Light=Black, Dark=White}" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <StackLayout Spacing="5">
+                            <Label Text="Email Status" FontSize="14" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontAttributes="Bold" HorizontalOptions="Center" />
+                            <Label x:Name="EmailStatusLabel" Text="UNKNOWN" FontSize="20" TextColor="#FF9800" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+                </Grid>
+
                 <!-- Password Strength Analyzer Feature -->
-                <Border BackgroundColor="#162236" StrokeThickness="0" Padding="20">
+                <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="20">
                     <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
                     <StackLayout Spacing="15">
-                        <Label Text="Password Strength Analyzer" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="Password Strength Analyzer" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                        <Border BackgroundColor="#0B1426" StrokeThickness="1" Stroke="#2A384D">
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}" StrokeThickness="1" Stroke="{AppThemeBinding Light=#D0D5DD, Dark=#2A384D}">
                             <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                             <Grid ColumnDefinitions="*, Auto">
                                 <Entry x:Name="PasswordEntry" 
                                        Grid.Column="0"
                                        Placeholder="Type a password..." 
                                        IsPassword="True"
-                                       TextColor="White" 
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}" 
                                        PlaceholderColor="#6A7A90" 
                                        BackgroundColor="Transparent"
                                        TextChanged="OnPasswordTextChanged" 
                                        Margin="10,0"/>
-                                <Button Grid.Column="1" 
+                                <ImageButton Grid.Column="1" 
                                         x:Name="VisibilityToggle"
-                                        Text="👁" 
-                                        FontSize="18" 
-                                        TextColor="#6A7A90"
+                                        Source="settings_icon.svg"
                                         BackgroundColor="Transparent" 
-                                        Padding="10,0" 
+                                        Padding="10,0"
+                                        WidthRequest="40" HeightRequest="40"
                                         Clicked="OnTogglePasswordVisibility" />
                             </Grid>
                         </Border>
 
                         <ProgressBar x:Name="StrengthProgressBar" Progress="0" ProgressColor="#F44336" HeightRequest="6" />
 
-                        <Label x:Name="StrengthLabel" Text="Strength: None" TextColor="#6A7A90" FontAttributes="Bold" />
+                        <Label x:Name="StrengthLabel" Text="Strength: None" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontAttributes="Bold" />
 
                         <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="10" ColumnSpacing="10">
-                            <Label x:Name="LengthCriterion" Grid.Row="0" Grid.Column="0" Text="○ 8+ chars" TextColor="#6A7A90" FontSize="14" />
-                            <Label x:Name="UpperCriterion" Grid.Row="0" Grid.Column="1" Text="○ Uppercase" TextColor="#6A7A90" FontSize="14" />
-                            <Label x:Name="LowerCriterion" Grid.Row="1" Grid.Column="0" Text="○ Lowercase" TextColor="#6A7A90" FontSize="14" />
-                            <Label x:Name="DigitCriterion" Grid.Row="1" Grid.Column="1" Text="○ Number" TextColor="#6A7A90" FontSize="14" />
-                            <Label x:Name="SymbolCriterion" Grid.Row="2" Grid.Column="0" Text="○ Symbol" TextColor="#6A7A90" FontSize="14" />
+                            <Label x:Name="LengthCriterion" Grid.Row="0" Grid.Column="0" Text="○ 8+ chars" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="UpperCriterion" Grid.Row="0" Grid.Column="1" Text="○ Uppercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="LowerCriterion" Grid.Row="1" Grid.Column="0" Text="○ Lowercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="DigitCriterion" Grid.Row="1" Grid.Column="1" Text="○ Number" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="SymbolCriterion" Grid.Row="2" Grid.Column="0" Text="○ Symbol" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
                         </Grid>
                     </StackLayout>
                 </Border>
@@ -83,3 +96,5 @@
         </ScrollView>
     </Grid>
 </ContentPage>
+
+

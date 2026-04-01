@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ByteSheild.BreachCheckerPage"
-             BackgroundColor="#0B1426">
+             BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
 
-    <ScrollView>
+    <ScrollView BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
         <StackLayout Padding="20" Spacing="25">
             <!-- Header -->
             <Grid ColumnDefinitions="Auto, *">
-                <Label Grid.Column="0" Text="←" FontSize="20" TextColor="#A0AAB8" VerticalOptions="Center" Margin="0,0,15,0"/>
-                <Label Grid.Column="1" Text="Breach Checker" FontSize="18" TextColor="White" FontAttributes="Bold" VerticalOptions="Center"/>
+                <Label Grid.Column="0" Text="←" FontSize="20" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" VerticalOptions="Center" Margin="0,0,15,0"/>
+                <Label Grid.Column="1" Text="Breach Checker" FontSize="18" TextColor="{AppThemeBinding Light=Black, Dark=White}" FontAttributes="Bold" VerticalOptions="Center"/>
             </Grid>
 
             <!-- Progress segments -->
@@ -19,59 +19,62 @@
                 <BoxView Grid.Column="2" BackgroundColor="#00D4AA" CornerRadius="2"/>
                 <BoxView Grid.Column="3" BackgroundColor="#00D4AA" CornerRadius="2"/>
                 <BoxView Grid.Column="4" BackgroundColor="#00D4AA" CornerRadius="2"/>
-                <BoxView Grid.Column="5" BackgroundColor="#1E2A3C" CornerRadius="2"/>
+                <BoxView Grid.Column="5" BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#1E2A3C}" CornerRadius="2"/>
             </Grid>
 
-            <Label Text="Audit your security" FontSize="24" FontAttributes="Bold" TextColor="White" />
-            <Label Text="Enter your email address to check if your data has been compromised in known data breaches." TextColor="#6A7A90" FontSize="14" LineHeight="1.4" />
+            <Label Text="Audit your security" FontSize="24" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+            <Label Text="Enter your email address to check if your data has been compromised in known data breaches." TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" LineHeight="1.4" />
 
-            <Border BackgroundColor="#0B1426" StrokeThickness="1" Stroke="#2A384D" Padding="15,0">
+            <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}" StrokeThickness="1" Stroke="{AppThemeBinding Light=#D0D5DD, Dark=#2A384D}" Padding="15,0">
                 <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="*, Auto">
-                    <Entry x:Name="EmailEntry" Placeholder="user@example.com" TextColor="White" PlaceholderColor="#6A7A90" BackgroundColor="Transparent" Grid.Column="0" VerticalOptions="Center"/>
-                    <Label Text="✉" TextColor="#00D4AA" FontSize="20" VerticalOptions="Center" Grid.Column="1"/>
+                    <Entry x:Name="EmailEntry" Placeholder="user@example.com" TextColor="{AppThemeBinding Light=Black, Dark=White}" PlaceholderColor="#6A7A90" BackgroundColor="Transparent" Grid.Column="0" VerticalOptions="Center"/>
+                    <Image Source="security_icon.svg" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" Grid.Column="1"/>
                 </Grid>
             </Border>
 
-            <Button Text="CHECK NOW" TextColor="#0B1426" BackgroundColor="#00D4AA" FontAttributes="Bold" CornerRadius="8" HeightRequest="50" Margin="0,10,0,10" Clicked="OnCheckClicked" />
+            <Grid>
+                <Button x:Name="CheckButton" Text="CHECK NOW" TextColor="#0B1426" BackgroundColor="#00D4AA" FontAttributes="Bold" CornerRadius="8" HeightRequest="50" Margin="0,10,0,10" Clicked="OnCheckClicked" />
+                <ActivityIndicator x:Name="CheckLoading" Color="#0B1426" WidthRequest="30" HeightRequest="30" IsRunning="False" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Grid>
 
-            <Border x:Name="ResultContainer" BackgroundColor="#162236" StrokeThickness="0" Padding="20" IsVisible="False">
+            <Border x:Name="ResultContainer" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="20" IsVisible="False">
                 <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                 <StackLayout Spacing="20">
                     <Grid ColumnDefinitions="Auto, *">
-                        <Border Grid.Column="0" BackgroundColor="#0F1B2C" StrokeThickness="0" WidthRequest="44" HeightRequest="44" VerticalOptions="Center" Margin="0,0,15,0">
+                        <Border Grid.Column="0" BackgroundColor="{AppThemeBinding Light=#E0E5EC, Dark=#0F1B2C}" StrokeThickness="0" WidthRequest="44" HeightRequest="44" VerticalOptions="Center" Margin="0,0,15,0">
                             <Border.StrokeShape><RoundRectangle CornerRadius="22"/></Border.StrokeShape>
-                            <Label Text="📊" FontSize="18" TextColor="#00D4AA" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Image Source="dashboard_icon.svg" WidthRequest="20" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <StackLayout Grid.Column="1" VerticalOptions="Center">
-                            <Label Text="Live Audit Result" FontSize="16" FontAttributes="Bold" TextColor="White" />
-                            <Label Text="Last checked: Just now" FontSize="12" TextColor="#6A7A90" />
+                            <Label Text="Live Audit Result" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="Last checked: Just now" FontSize="12" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" />
                         </StackLayout>
                     </Grid>
 
-                    <Border BackgroundColor="#1E2A3C" StrokeThickness="0" Padding="15">
+                    <Border BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#1E2A3C}" StrokeThickness="0" Padding="15">
                         <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                         <Grid ColumnDefinitions="Auto, *, Auto">
-                            <Label Grid.Column="0" Text="🛡" TextColor="#00D4AA" FontSize="18" VerticalOptions="Center" Margin="0,0,10,0"/>
-                            <Label Grid.Column="1" Text="Domain Integrity" TextColor="#A0AAB8" FontSize="14" VerticalOptions="Center"/>
+                            <Image Grid.Column="0" Source="shield_icon.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Grid.Column="1" Text="Domain Integrity" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" FontSize="14" VerticalOptions="Center"/>
                             <Label x:Name="DomainResult" Grid.Column="2" Text="SECURE" TextColor="#00D4AA" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
                         </Grid>
                     </Border>
 
-                    <Border BackgroundColor="#1E2A3C" StrokeThickness="0" Padding="15">
+                    <Border BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#1E2A3C}" StrokeThickness="0" Padding="15">
                         <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                         <Grid ColumnDefinitions="Auto, *, Auto">
-                            <Label Grid.Column="0" Text="🔑" TextColor="#00D4AA" FontSize="18" VerticalOptions="Center" Margin="0,0,10,0"/>
-                            <Label Grid.Column="1" Text="Password Leaks" TextColor="#A0AAB8" FontSize="14" VerticalOptions="Center"/>
-                            <Label x:Name="LeaksResult" Grid.Column="2" Text="0 FOUND" TextColor="#6A7A90" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
+                            <Image Grid.Column="0" Source="vault_icon.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Grid.Column="1" Text="Password Leaks" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" FontSize="14" VerticalOptions="Center"/>
+                            <Label x:Name="LeaksResult" Grid.Column="2" Text="0 FOUND" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
                         </Grid>
                     </Border>
 
-                    <Border BackgroundColor="#1E2A3C" StrokeThickness="0" Padding="15">
+                    <Border BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#1E2A3C}" StrokeThickness="0" Padding="15">
                         <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                         <Grid ColumnDefinitions="Auto, *, Auto">
-                            <Label Grid.Column="0" Text="🌍" TextColor="#FF9800" FontSize="18" VerticalOptions="Center" Margin="0,0,10,0"/>
-                            <Label Grid.Column="1" Text="Global Registry" TextColor="#A0AAB8" FontSize="14" VerticalOptions="Center"/>
+                            <Image Grid.Column="0" Source="settings_icon.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Grid.Column="1" Text="Global Registry" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" FontSize="14" VerticalOptions="Center"/>
                             <Label x:Name="RegistryResult" Grid.Column="2" Text="MONITORED" TextColor="#FF9800" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
                         </Grid>
                     </Border>
@@ -81,3 +84,6 @@
     </ScrollView>
 
 </ContentPage>
+
+
+
