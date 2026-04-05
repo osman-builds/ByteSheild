@@ -23,6 +23,8 @@ Your personal credentials deserve premium protection. The **Offline Vault** stor
 
 ### 4. Breach Checker (Identity Audit)
 An interactive Identity Audit page simulating connection hooks using HaveIBeenPwned endpoints. It takes an email address and verifies its integrity against known public data leak domain registries, providing immediate threat intelligence metrics (Domain Integrity, Global Registry Status, and Password Leaks found).
+*   **Leak Source Display:** Provides a clear readout of exact domain networks or registries where your email was intercepted based on public data dumps.
+*   **Dynamic Response System:** Reset and cleanup operations clear visual flags in real-time as you alter or modify the email address field to prevent stale cache representation.
 
 ### 5. Configurable Security Options
 In the Settings page, you can not only toggle Dark/Light mode but also setup a 4-digit App Passcode as a fallback layer of security when biometric authentication fails or is unavailable. You'll also find the fully detailed Privacy Policy and open source licenses.

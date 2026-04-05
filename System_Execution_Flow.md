@@ -55,9 +55,10 @@ The singular area where the app communicates with the outside world is to verify
     *   The app uses `HttpClient`. It retrieves the HIBP API key from the environment and injects it securely into the Request Headers (`hibp-api-key`).
     *   It URL-encodes the email to prevent injection attacks and sends an asynchronous `GET` request to the *HaveIBeenPwned* v3 API.
 *   **Response Parsing & State Management:**
-    *   **Success (200 OK):** The JSON response is deserialized into a `List<BreachModel>`. `Preferences.Default` is updated with `EmailIsSafe = false`.
-    *   **Not Found (404):** Means the API successfully searched but found no breaches. `Preferences.Default` is updated with `EmailIsSafe = true`.
+    *   **Success (200 OK):** The JSON response is deserialized into a `List<BreachModel>`. It counts the breaches and extracts and displays the specific sources of the leaks. `Preferences.Default` is updated with `EmailIsSafe = false` and cached.
+    *   **Not Found (404):** Means the API successfully searched but found no breaches. `Preferences.Default` is updated with `EmailIsSafe = true` and cached.
     *   Exceptions and unexpected HTTP codes (like 429 Too Many Requests or 401 Unauthorized) are gracefully caught and presented as human-readable display alerts.
+*   **Dynamic UI Reset:** The `OnEmailTextChanged` event is attached to the email input. If the user begins typing, clears, or alters a previously searched email address, the UI dynamically clears out the previous result container and resets the global security preference to "UNKNOWN".
 
 ---
 
