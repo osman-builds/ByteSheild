@@ -71,7 +71,7 @@ In the Settings page, you can not only toggle Dark/Light mode but also setup a 4
 
 ---
 
-## 👨‍💻 Developer Information
+## 👨🏾‍💻 Developer Information
 
 * **Developer:** Abdullahi Osman
 * **Version:** 1.0.24 (Stable Release)
