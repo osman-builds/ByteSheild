@@ -5,60 +5,74 @@
              BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
 
     <ScrollView BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}">
-        <StackLayout VerticalOptions="Start" HorizontalOptions="Center" Spacing="25" Padding="20">
-            <Image Source="shield_icon.svg" WidthRequest="120" HeightRequest="120" HorizontalOptions="Center" />
-            <Label Text="ByteShield" FontSize="28" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" HorizontalOptions="Center" />
-            
-            <Label Text="Version 1.0.24 Stable Release" FontSize="14" TextColor="{AppThemeBinding Light=Gray, Dark=Silver}" HorizontalOptions="Center" />
-            <Label Text="Developer: Abdullahi Osman" FontSize="14" TextColor="{AppThemeBinding Light=Gray, Dark=Silver}" HorizontalOptions="Center" />
+        <Grid HorizontalOptions="Center" MaximumWidthRequest="600">
+            <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Spacing="25" Padding="20">
+                <Image Source="shield_icon.svg" WidthRequest="120" HeightRequest="120" HorizontalOptions="Center" />
+                <Label Text="ByteShield" FontSize="28" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" HorizontalOptions="Center" />
 
-            <StackLayout Spacing="10" Margin="0,30,0,0">
-                <Label Text="Settings" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,0,0,5" />
+                <Label x:Name="VersionLabel" FontSize="14" TextColor="{AppThemeBinding Light=Gray, Dark=Silver}" HorizontalOptions="Center" />
+                <Label Text="Developer: Abdullahi Osman" FontSize="14" TextColor="{AppThemeBinding Light=Gray, Dark=Silver}" HorizontalOptions="Center" />
+                <Label Text="Auth-ID: BSW01085171" FontSize="14" TextColor="{AppThemeBinding Light=Gray, Dark=Silver}" FontAttributes="Bold" HorizontalOptions="Center" />
 
-                <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                    <Grid ColumnDefinitions="*, Auto">
-                        <Label Text="Dark Mode" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Switch x:Name="ThemeSwitch" Grid.Column="1" Toggled="OnThemeSwitchToggled" OnColor="#00D4AA" />
-                    </Grid>
-                </Border>
+                <StackLayout Spacing="10" Margin="0,30,0,0">
+                    <Label Text="Settings" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,0,0,5" />
 
-                <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnSetupPasscodeTapped" />
-                    </Border.GestureRecognizers>
-                    <Grid>
-                        <Label Text="Set up App Passcode" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
-                    </Grid>
-                </Border>
+                    <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="Dark Mode" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Switch x:Name="ThemeSwitch" Grid.Column="1" Toggled="OnThemeSwitchToggled" OnColor="#00D4AA" />
+                        </Grid>
+                    </Border>
 
-                <Label Text="About" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,15,0,5" />
+                    <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSetupPasscodeTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid>
+                            <Label Text="Set up App Passcode" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
 
-                <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnPrivacyPolicyTapped" />
-                    </Border.GestureRecognizers>
-                    <Grid>
-                        <Label Text="Privacy Policy" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
-                    </Grid>
-                </Border>
+                    <Border BackgroundColor="#FFEbee" StrokeThickness="0" Padding="15" Margin="0,15,0,0">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSelfDestructTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid>
+                            <Label Text="Self-Destruct" VerticalOptions="Center" FontAttributes="Bold" TextColor="#D32F2F" />
+                            <Label Text="⚠" HorizontalOptions="End" VerticalOptions="Center" TextColor="#D32F2F" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
 
-                <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnOpenSourceLicensesTapped" />
-                    </Border.GestureRecognizers>
-                    <Grid>
-                        <Label Text="Open Source Licenses" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
-                    </Grid>
-                </Border>
+                    <Label Text="About" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,15,0,5" />
+
+                    <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPrivacyPolicyTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid>
+                            <Label Text="Privacy Policy" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#162236}" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnOpenSourceLicensesTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid>
+                            <Label Text="End User License Agreement" VerticalOptions="Center" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text=">" HorizontalOptions="End" VerticalOptions="Center" TextColor="#00D4AA" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </Grid>
     </ScrollView>
 
 </ContentPage>
