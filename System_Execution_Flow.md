@@ -1,13 +1,13 @@
-# ByteSheild: Under the Hood - System Execution Flow
+# ByteShield: Under the Hood - System Execution Flow
 
-This document provides a comprehensive, step-by-step technical walkthrough of the ByteSheild application. It maps out the logical flow of data and execution from the moment the user launches the app to their interactions with core features. 
+This document provides a comprehensive, step-by-step technical walkthrough of the ByteShield application. It maps out the logical flow of data and execution from the moment the user launches the app to their interactions with core features.
 
 ---
 
 ## 1. Phase 1: Application Launch & Initialization
 **Files Involved:** `MauiProgram.cs`, `App.xaml.cs`, `.env`
 
-When the user taps the ByteSheild app icon, the operating system triggers the application lifecycle.
+When the user taps the ByteShield app icon, the operating system triggers the application lifecycle.
 
 *   **The Builder Pattern (`MauiProgram.cs`):** The app starts by invoking `MauiProgram.CreateMauiApp()`. This uses the .NET generic host builder to configure fonts, lifecycle events, and dependencies.
 *   **Dependency Injection (DI):** 
@@ -41,7 +41,7 @@ Once authenticated, the dashboard aggregates system states and provides real-tim
 
 This phase handles the core offline password manager functionality.
 
-*   **SQLite Initialization:** The `DatabaseService` relies on `sqlite-net-pcl`. On the very first request (e.g., `GetVaultItemsAsync`), the `Init()` method is called. It locates the application's isolated AppData directory (`FileSystem.AppDataDirectory`) and creates `ByteSheildVault.db3`.
+*   **SQLite Initialization:** The `DatabaseService` relies on `sqlite-net-sqlcipher`. On the very first request (e.g., `GetVaultItemsAsync`), the `Init()` method is called. It locates the application's isolated AppData directory (`FileSystem.AppDataDirectory`) and creates `ByteShieldVault.db3`.
 *   **ORM Mapping:** `Init()` also calls `CreateTableAsync<VaultItemModel>()`. This scans the `VaultItemModel.cs` class for attributes like `[PrimaryKey, AutoIncrement]` and maps the C# object directly to a SQL database table.
 *   **Offline First CRUD:** When a user adds or deletes a password from the `OfflineVaultPage`, the system executes asynchronous SQL commands (`InsertAsync`, `UpdateAsync`, `DeleteAsync`). Everything happens locally on the device—no data is ever transmitted to the cloud, ensuring strict user privacy.
 
@@ -64,16 +64,16 @@ The singular area where the app communicates with the outside world is to verify
 
 ## Technical Summary for Panelists
 
-ByteSheild is architected with a strict separation of concerns and a focus on **Offline-First Security**. 
-- Application state and native hardware features (Biometrics, Secure Storage) guard the entry.
+ByteShield is architected with a strict separation of concerns and a focus on **Offline-First Security**. 
+- Application state and native hardware features (Biometrics, Secure Storage, SQLCipher) guard the entry.
 - External interaction is heavily isolated to a specific page (`BreachCheckerPage`) and authenticated via hidden environments variables.
-- Internal persistent data relies entirely on a fast, asynchronous, local implementation of SQLite, ensuring zero knowledge architecture for vault credentials.
+- Internal persistent data relies entirely on a fast, asynchronous, local and encrypted implementation of SQLite, ensuring zero knowledge architecture for vault credentials.
 
 ---
 
 ## 6. App Architecture Flow Diagram
 
-Below is a visual representation of how a user navigates and data flows through ByteSheild:
+Below is a visual representation of how a user navigates and data flows through ByteShield:
 
 ```mermaid
 graph TD
@@ -110,7 +110,7 @@ graph TD
     M --> N
     
     %% SQLite
-    N -- CRUD Operations --> O[(Local SQLite DB<br/>ByteSheildVault.db3)]:::dataNode
+    N -- CRUD Operations --> O[(Local SQLCipher DB<br/>ByteShieldVault.db3)]:::dataNode
 
     %% Network Operations
     H --> P[BreachCheckerPage]:::pageNode

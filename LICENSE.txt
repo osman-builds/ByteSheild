@@ -1,21 +1,17 @@
-MIT License
+END USER LICENSE AGREEMENT (CLOSED SOURCE)
 
-Copyright (c) 2026 Abdullahi Osman
+Copyright (c) 2026 Abdullahi Osman. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. PROPRIETARY SOFTWARE
+This software ("ByteShield") is the proprietary intellectual property of Abdullahi Osman. This is a closed-source license. You may not distribute, sub-license, rent, lease, alter, reverse-engineer, modify, or create derivative works from this software without explicit written permission from the author.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. RESTRICTIONS ON USE
+The source code of this software is completely proprietary. You are granted a limited, non-exclusive, non-transferable license to view and execute this code strictly for the purposes of academic grading and review. 
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. DISCLAIMER OF WARRANTY AND LIMITATION OF LIABILITY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+
+IN NO EVENT SHALL THE AUTHOR, CREATOR, OR COPYRIGHT HOLDER (ABDULLAHI OSMAN) BE LIABLE FOR ANY CLAIM, DAMAGES, DATA LOSS, SECURITY BREACHES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+4. USER LIABILITY
+By executing, compiling, or interacting with this software, the User assumes all liability for any damages, hardware failure, or data loss that may occur. The original author assumes no responsibility for how this software is utilized or implemented on end-user devices.

@@ -8,7 +8,7 @@ ByteShield is a state-of-the-art mobile application built with .NET MAUI, aimed 
 ## 🌟 Key Features
 
 ### 1. Biometric Gatekeeper (Session Flow)
-Security begins right at the front door. After a brief initialization protocol, ByteShield locks the application behind a **Biometric Gatekeeper** (powered by `Plugin.Fingerprint`). Attempting to bypass this screen is impossible without successful fingerprint or facial identification, keeping unauthorized physical usage completely out of bounds.
+Security begins right at the front door. ByteShield locks the application behind a **Biometric Gatekeeper** (powered by `Plugin.Fingerprint`). Attempting to bypass this screen is impossible without successful fingerprint or facial identification, keeping unauthorized physical usage out of bounds.
 
 ### 2. Security Dashboard (Real-time Analysis)
 The central Security Hub evaluates password robustness instantly. As you type, the **Password Strength Analyzer** dynamically adjusts:
@@ -17,17 +17,17 @@ The central Security Hub evaluates password robustness instantly. As you type, t
 - Visibility toggling and visual color-coded hazard states to ensure strong credential generation.
 
 ### 3. Premium Offline Vault (Encrypted Storage)
-Your personal credentials deserve premium protection. The **Offline Vault** stores your account handles and passwords directly on your device using a robust local SQLite implementation (`sqlite-net-sqlcipher`).
+Your personal credentials deserve premium protection. The **Offline Vault** stores your account handles and passwords securely on your device using a robust local SQLite implementation (`sqlite-net-sqlcipher`).
 * **Zero Cloud Tracking:** Data never transits a remote backend server; your data never leaves this device.
 * **Full CRUD Management:** Easily Add, Edit, Delete, and Reveal passwords using native, action-driven sheets.
 
 ### 4. Breach Checker (Identity Audit)
-An interactive Identity Audit page simulating connection hooks using HaveIBeenPwned endpoints. It takes an email address and verifies its integrity against known public data leak domain registries, providing immediate threat intelligence metrics (Domain Integrity, Global Registry Status, and Password Leaks found).
-*   **Leak Source Display:** Provides a clear readout of exact domain networks or registries where your email was intercepted based on public data dumps.
-*   **Dynamic Response System:** Reset and cleanup operations clear visual flags in real-time as you alter or modify the email address field to prevent stale cache representation.
+An interactive Identity Audit page simulating connection hooks using HaveIBeenPwned endpoints. It takes an email address and verifies its integrity against known public data leak domain registries, providing immediate threat intelligence metrics.
+*   **Leak Source Display:** Provides a clear readout of exact domain networks or registries where your email was intercepted.
+*   **Dynamic Response System:** Reset and cleanup operations clear visual flags in real-time as you modify the email address.
 
 ### 5. Configurable Security Options
-In the Settings page, you can not only toggle Dark/Light mode but also setup a 4-digit App Passcode as a fallback layer of security when biometric authentication fails or is unavailable. You'll also find the fully detailed Privacy Policy and open source licenses.
+In the Settings page, you can toggle Dark/Light mode and setup a 4-digit App Passcode as a fallback layer of security when biometric authentication fails. You'll also find the fully detailed Privacy Policy and open-source licenses.
 
 ---
 
@@ -56,9 +56,15 @@ In the Settings page, you can not only toggle Dark/Light mode but also setup a 4
    ```
 2. **Open the Solution:**
    Open `ByteSheild.slnx` or `ByteSheild.csproj` in Visual Studio.
-3. **Restore Dependencies:**
-   Nuget packages should automatically restore, which include `SQLitePCLRaw` providers and the `Plugin.Fingerprint` packages.
-4. **Run the Application:**
+3. **Configure Environment Variables:**
+   Create a `.env` file in the root directory (where the `.csproj` file is located). Add your API key for the Breach Checker (Have I Been Pwned API):
+   ```
+   HIBP_API_KEY=your_api_key_here
+   ```
+   If you don't have a key, the Breach Checker will display a configuration error, but the rest of the application will work normally.
+5. **Restore Dependencies:**
+   NuGet packages should automatically restore, which include `SQLitePCLRaw` providers and the `Plugin.Fingerprint` packages.
+6. **Run the Application:**
    Select your desired emulator or physical device (e.g., `net10.0-android`) and hit **Run/Deploy**.
 
 ---
@@ -75,12 +81,13 @@ In the Settings page, you can not only toggle Dark/Light mode but also setup a 4
 
 * **Developer:** Abdullahi Osman
 * **Version:** 1.0.24 (Stable Release)
+* **License:** Closed Source / Proprietary (See LICENSE.txt)
 
 ---
 
 ## 6. App Architecture Flow Diagram
 
-Below is a visual representation of how a user navigates and data flows through ByteSheild:
+Below is a visual representation of how a user navigates and data flows through ByteShield:
 
 ```mermaid
 graph TD
@@ -117,7 +124,7 @@ graph TD
     M --> N
     
     %% SQLite
-    N -- CRUD Operations --> O[(Local SQLite DB<br/>ByteSheildVault.db3)]:::dataNode
+    N -- CRUD Operations --> O[(Local SQLCipher DB<br/>ByteShieldVault.db3)]:::dataNode
 
     %% Network Operations
     H --> P[BreachCheckerPage]:::pageNode
