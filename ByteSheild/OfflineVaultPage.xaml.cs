@@ -9,6 +9,13 @@ namespace ByteSheild
         public ObservableCollection<VaultItemModel> VaultItems { get; } = new();
         private readonly Services.DatabaseService _database;
 
+        public OfflineVaultPage()
+        {
+            InitializeComponent();
+            _database = new Services.DatabaseService();
+            VaultCollectionView.ItemsSource = VaultItems;
+        }
+
         public OfflineVaultPage(Services.DatabaseService database)
         {
             InitializeComponent();
@@ -25,6 +32,11 @@ namespace ByteSheild
             }
         }
 
+        /// <summary>
+        /// Edits the selected item in the vault collection.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private async void OnEditInvoked(object? sender, EventArgs e)
         {
             if (sender is SwipeItem { CommandParameter: VaultItemModel selected })
@@ -33,48 +45,51 @@ namespace ByteSheild
             }
         }
 
+        /// <summary>
+        /// Deletes the selected item from the vault collection.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private async void OnDeleteInvoked(object? sender, EventArgs e)
         {
             if (sender is SwipeItem { CommandParameter: VaultItemModel selected })
             {
                 await _database.DeleteVaultItemAsync(selected);
-                VaultItems.Remove(selected);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    VaultItems.Remove(selected);
+                });
             }
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await LoadVaultItems();
+            try
+            {
+                await LoadVaultItems();
+            }
+            catch (Exception)
+            {
+                // Suppressed the error popup so as not to degrade the user experience just by clicking the vault tab.
+            }
         }
 
         private async Task LoadVaultItems()
         {
             var items = await _database.GetVaultItemsAsync();
-            VaultItems.Clear();
 
-            // Seed sample data if empty
-            if (items.Count == 0)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                // Target-typed new() syntax for cleaner instantiation
-                var sampleRecords = new List<VaultItemModel>
+                VaultItems.Clear();
+                if (items != null)
                 {
-                    new() { Title = "Personal Gmail", EmailOrUsername = "google.com", Icon = "✉️", LastUpdated = DateTime.Now },
-                    new() { Title = "Bank Account", EmailOrUsername = "chase.com", Icon = "🏦", LastUpdated = DateTime.Now },
-                    new() { Title = "Corporate Visa", EmailOrUsername = "Ends in •••• 4242", Icon = "💳", LastUpdated = DateTime.Now },
-                    new() { Title = "Master Recovery Key", EmailOrUsername = "Stored locally on device", Icon = "🛡️", LastUpdated = DateTime.Now }
-                };
-
-                // Run insertions concurrently for better performance and responsiveness
-                await Task.WhenAll(sampleRecords.Select(record => _database.SaveVaultItemAsync(record)));
-
-                items = await _database.GetVaultItemsAsync();
-            }
-
-            foreach (var item in items)
-            {
-                VaultItems.Add(item);
-            }
+                    foreach (var item in items)
+                    {
+                        VaultItems.Add(item);
+                    }
+                }
+            });
         }
 
         private async void OnAddClicked(object? sender, EventArgs e)
@@ -94,16 +109,23 @@ namespace ByteSheild
             }
 
             var items = await _database.GetVaultItemsAsync();
-            VaultItems.Clear();
 
-            // Avoid creating a LINQ state machine iteration closure by using straightforward loops overhead in fast ops
-            foreach (var item in items)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (item.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                VaultItems.Clear();
+
+                // Avoid creating a LINQ state machine iteration closure by using straightforward loops overhead in fast ops
+                if (items != null)
                 {
-                    VaultItems.Add(item);
+                    foreach (var item in items)
+                    {
+                        if (item.Title != null && item.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                        {
+                            VaultItems.Add(item);
+                        }
+                    }
                 }
-            }
+            });
         }
 
         private async void OnOptionsClicked(object? sender, EventArgs e)
@@ -123,8 +145,15 @@ namespace ByteSheild
                     {
                         var items = await _database.GetVaultItemsAsync();
                         // Batch deletion concurrently instead of looping sequential awaits
-                        await Task.WhenAll(items.Select(item => _database.DeleteVaultItemAsync(item)));
-                        VaultItems.Clear();
+                        if (items != null)
+                        {
+                            await Task.WhenAll(items.Select(item => _database.DeleteVaultItemAsync(item)));
+                        }
+
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            VaultItems.Clear();
+                        });
                     }
                     break;
             }

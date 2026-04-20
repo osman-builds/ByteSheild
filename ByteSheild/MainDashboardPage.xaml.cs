@@ -71,6 +71,12 @@ namespace ByteSheild
             }
         }
 
+        /// <summary>
+        /// Evaluates the strength of the entered password and dynamically updates the UI to reflect the score.
+        /// Uses high-performance regex matching for validation.
+        /// </summary>
+        /// <param name="sender">The object that fired the event.</param>
+        /// <param name="e">Event arguments containing the new text value.</param>
         private void OnPasswordTextChanged(object? sender, TextChangedEventArgs e)
         {
             var password = e.NewTextValue ?? string.Empty;
@@ -99,9 +105,13 @@ namespace ByteSheild
             MainScoreLabel.Text = percentage.ToString();
 
             double dashLength = percentage * RingDashMultiplier;
-            ScoreRing.StrokeDashArray = new DoubleCollection { dashLength, 100 };
-
-            StrengthProgressBar.Progress = score / 5.0;
+            
+            // Current value to start the animation from
+            double startValue = ScoreRing.StrokeDashArray != null && ScoreRing.StrokeDashArray.Count > 0 ? ScoreRing.StrokeDashArray[0] : 0;
+            
+            // Adding a simple animation instead of instant snap
+            ScoreRing.Animate("RingProgress", new Animation(v => ScoreRing.StrokeDashArray = new DoubleCollection { v, 100 }, startValue, dashLength, Easing.CubicOut), 16, 250);
+            _ = StrengthProgressBar.ProgressTo(score / 5.0, 250, Easing.CubicOut);
 
             UpdateVisualStrength(score);
         }
@@ -146,7 +156,7 @@ namespace ByteSheild
 
         private void UpdateCriterion(Label label, bool isMet, string text)
         {
-            label.Text = isMet ? $"● {text}" : $"○ {text}";
+            label.Text = isMet ? $"✅ {text}" : $"❌ {text}";
             label.TextColor = isMet ? SuccessColor : InactiveColor;
         }
     }

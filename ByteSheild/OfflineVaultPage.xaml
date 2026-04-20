@@ -28,6 +28,13 @@
 
             <!-- CollectionView -->
             <CollectionView x:Name="VaultCollectionView" Grid.Row="2" Margin="20,0,20,0" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="15" Margin="0,50,0,0">
+                        <Label Text="📭" FontSize="64" HorizontalOptions="Center" />
+                        <Label Text="Your vault is empty" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Tap the + button below to add your first secure account." HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" Margin="20,0,20,0" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView Margin="0,0,0,12">

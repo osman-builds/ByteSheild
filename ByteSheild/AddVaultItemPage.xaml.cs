@@ -12,11 +12,17 @@ namespace ByteSheild
         {
             set
             {
-                if (int.TryParse(Uri.UnescapeDataString(value), out int id))
+                if (!string.IsNullOrEmpty(value) && int.TryParse(Uri.UnescapeDataString(value), out int id))
                 {
                     LoadItem(id);
                 }
             }
+        }
+
+        public AddVaultItemPage()
+        {
+            InitializeComponent();
+            _database = new Services.DatabaseService();
         }
 
         public AddVaultItemPage(Services.DatabaseService database)
@@ -27,16 +33,33 @@ namespace ByteSheild
 
         private async void LoadItem(int id)
         {
-            var items = await _database.GetVaultItemsAsync();
-            _editItem = items.FirstOrDefault(i => i.Id == id);
-
-            if (_editItem != null)
+            try
             {
-                Title = "Edit Account";
-                TitleEntry.Text = _editItem.Title;
-                EmailEntry.Text = _editItem.EmailOrUsername;
-                PasswordEntry.Text = _editItem.Password;
-                IconEntry.Text = _editItem.Icon;
+                var items = await _database.GetVaultItemsAsync();
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    if (items != null)
+                    {
+                        _editItem = items.FirstOrDefault(i => i.Id == id);
+                        if (_editItem != null)
+                        {
+                            Title = "Edit Account";
+                            HeaderLabel.Text = "Edit Account";
+                            TitleEntry.Text = _editItem.Title;
+                            EmailEntry.Text = _editItem.EmailOrUsername;
+                            PasswordEntry.Text = _editItem.Password;
+                            IconEntry.Text = _editItem.Icon;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await DisplayAlertAsync("Error", $"Could not load item: {ex.Message}", "OK");
+                });
             }
         }
 
@@ -61,10 +84,22 @@ namespace ByteSheild
             _editItem.Icon = string.IsNullOrWhiteSpace(IconEntry.Text) ? "🔑" : IconEntry.Text;
             _editItem.LastUpdated = DateTime.Now;
 
-            await _database.SaveVaultItemAsync(_editItem);
-            await DisplayAlertAsync("Success", "Account saved securely.", "OK");
+            try
+            {
+                await _database.SaveVaultItemAsync(_editItem);
+                await DisplayAlertAsync("Success", "Account saved securely.", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlertAsync("Error", $"Could not save account: {ex.Message}", "OK");
+            }
+        }
 
-            await Shell.Current.GoToAsync("..");
+        private void OnTogglePasswordVisibility(object? sender, EventArgs e)
+        {
+            PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
+            VisibilityToggle.Source = PasswordEntry.IsPassword ? "settings_icon.svg" : "vault_icon.svg";
         }
     }
 }

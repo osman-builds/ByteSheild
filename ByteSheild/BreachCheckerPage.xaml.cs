@@ -31,10 +31,16 @@ namespace ByteSheild
                 HttpClient.DefaultRequestHeaders.Remove("User-Agent");
 
                 HttpClient.DefaultRequestHeaders.Add("hibp-api-key", ApiKey);
-                HttpClient.DefaultRequestHeaders.Add("User-Agent", "ByteSheild-App");
+                HttpClient.DefaultRequestHeaders.Add("User-Agent", "ByteShield-App");
             }
         }
 
+        /// <summary>
+        /// Handles the event when the Check button is clicked. 
+        /// Validates the email, queries the Have I Been Pwned API, and updates the application preferences with the breach status.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private async void OnCheckClicked(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(EmailEntry.Text))
@@ -92,6 +98,12 @@ namespace ByteSheild
 
                     RegistryResult.Text = "COMPROMISED";
                     RegistryResult.TextColor = DangerColor;
+
+                    if (breachCount > 0 && breaches != null)
+                    {
+                        SourcesContainer.IsVisible = true;
+                        SourcesResult.Text = string.Join(", ", breaches.Select(b => b.Name));
+                    }
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -106,6 +118,8 @@ namespace ByteSheild
 
                     RegistryResult.Text = "MONITORED";
                     RegistryResult.TextColor = WarningColor;
+
+                    SourcesContainer.IsVisible = false;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
@@ -133,6 +147,14 @@ namespace ByteSheild
             CheckButton.Text = "CHECK NOW";
             CheckButton.IsEnabled = true;
             ResultContainer.IsVisible = true;
+        }
+
+        private void OnEmailTextChanged(object? sender, TextChangedEventArgs e)
+        {
+            // Reset to UNKNOWN when email is modified or cleared
+            Preferences.Default.Set("EmailBreachStatus", "UNKNOWN");
+            Preferences.Default.Set("EmailIsSafe", false);
+            ResultContainer.IsVisible = false;
         }
 
         // Simple model for deserialization

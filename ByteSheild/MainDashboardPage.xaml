@@ -84,11 +84,11 @@
                         <Label x:Name="StrengthLabel" Text="Strength: None" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontAttributes="Bold" />
 
                         <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="10" ColumnSpacing="10">
-                            <Label x:Name="LengthCriterion" Grid.Row="0" Grid.Column="0" Text="○ 8+ chars" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
-                            <Label x:Name="UpperCriterion" Grid.Row="0" Grid.Column="1" Text="○ Uppercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
-                            <Label x:Name="LowerCriterion" Grid.Row="1" Grid.Column="0" Text="○ Lowercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
-                            <Label x:Name="DigitCriterion" Grid.Row="1" Grid.Column="1" Text="○ Number" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
-                            <Label x:Name="SymbolCriterion" Grid.Row="2" Grid.Column="0" Text="○ Symbol" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="LengthCriterion" Grid.Row="0" Grid.Column="0" Text="❌ 8+ chars" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="UpperCriterion" Grid.Row="0" Grid.Column="1" Text="❌ Uppercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="LowerCriterion" Grid.Row="1" Grid.Column="0" Text="❌ Lowercase" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="DigitCriterion" Grid.Row="1" Grid.Column="1" Text="❌ Number" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
+                            <Label x:Name="SymbolCriterion" Grid.Row="2" Grid.Column="0" Text="❌ Symbol" TextColor="{AppThemeBinding Light=#4A5A70, Dark=#6A7A90}" FontSize="14" />
                         </Grid>
                     </StackLayout>
                 </Border>

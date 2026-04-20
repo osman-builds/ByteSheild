@@ -28,7 +28,7 @@
             <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#0B1426}" StrokeThickness="1" Stroke="{AppThemeBinding Light=#D0D5DD, Dark=#2A384D}" Padding="15,0">
                 <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="*, Auto">
-                    <Entry x:Name="EmailEntry" Placeholder="user@example.com" TextColor="{AppThemeBinding Light=Black, Dark=White}" PlaceholderColor="#6A7A90" BackgroundColor="Transparent" Grid.Column="0" VerticalOptions="Center"/>
+                    <Entry x:Name="EmailEntry" Placeholder="user@example.com" TextColor="{AppThemeBinding Light=Black, Dark=White}" PlaceholderColor="#6A7A90" BackgroundColor="Transparent" Grid.Column="0" VerticalOptions="Center" TextChanged="OnEmailTextChanged"/>
                     <Image Source="security_icon.svg" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" Grid.Column="1"/>
                 </Grid>
             </Border>
@@ -76,6 +76,17 @@
                             <Image Grid.Column="0" Source="settings_icon.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" Margin="0,0,10,0"/>
                             <Label Grid.Column="1" Text="Global Registry" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" FontSize="14" VerticalOptions="Center"/>
                             <Label x:Name="RegistryResult" Grid.Column="2" Text="MONITORED" TextColor="#FF9800" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="SourcesContainer" BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#1E2A3C}" StrokeThickness="0" Padding="15" IsVisible="False">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Image Grid.Column="0" Source="security_icon.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Start" Margin="0,0,10,0"/>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="Breach Sources" TextColor="{AppThemeBinding Light=#505A68, Dark=#A0AAB8}" FontSize="14" VerticalOptions="Center" />
+                                <Label x:Name="SourcesResult" Text="" TextColor="#F44336" FontSize="12" FontAttributes="Bold" Margin="0,5,0,0"/>
+                            </StackLayout>
                         </Grid>
                     </Border>
                 </StackLayout>
