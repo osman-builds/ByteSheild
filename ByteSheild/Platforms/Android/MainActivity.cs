@@ -11,6 +11,8 @@ namespace ByteSheild
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            // Prevent screenshots and screen recording on Android
+             Window?.SetFlags(Android.Views.WindowManagerFlags.Secure, Android.Views.WindowManagerFlags.Secure);
             CrossFingerprint.SetCurrentActivityResolver(() => this);
         }
     }
